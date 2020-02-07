@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="subscriptionsTable"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.subscription">
+    <data readOnly="true">
+        <collection id="subscriptionsDc"
+                    class="de.diedavids.cuba.ccsm.entity.Subscription"
+                    view="subscription-view">
+            <loader id="subscriptionsDl">
+                <query>
+                    <![CDATA[select e from ccsm_Subscription e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="subscriptionsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="subscriptionsTable"
+                dataLoader="subscriptionsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="subscriptionsTable"
+                    width="100%"
+                    dataContainer="subscriptionsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="status"/>
+                <column id="customer"/>
+                <column id="plan"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="subscriptionsTable.create"/>
+                <button id="editBtn" action="subscriptionsTable.edit"/>
+                <button id="removeBtn" action="subscriptionsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

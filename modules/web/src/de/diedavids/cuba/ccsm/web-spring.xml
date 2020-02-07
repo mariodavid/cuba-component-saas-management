@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:gui="http://schemas.haulmont.com/cuba/spring/cuba-gui.xsd">
+
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="de.diedavids.cuba.ccsm"/>
+    
+    <gui:screens base-packages="de.diedavids.cuba.ccsm.web"/>
+    <bean id="ccsm_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="ccsm_CustomerCreationService"
+                       value="de.diedavids.cuba.ccsm.service.CustomerCreationService"/>
+                <entry key="ccsm_ReceviedEventService" value="de.diedavids.cuba.ccsm.service.ReceviedEventService"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

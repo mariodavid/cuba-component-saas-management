@@ -1,0 +1,50 @@
+{
+  "event_type": "customer_create",
+  "event_source": "user",
+  "data": {
+    "company_name": "",
+    "is_affiliate": false,
+    "website": "",
+    "phone": "",
+    "billing_address": {
+      "street1": "",
+      "street2": "",
+      "city": "",
+      "state": "",
+      "state_code": "",
+      "zip_code": "",
+      "country": "US"
+    },
+    "shipping_address": {
+      "attention": "",
+      "street1": "",
+      "street2": "",
+      "city": "",
+      "state": "",
+      "state_code": "",
+      "zip_code": "",
+      "country": "US"
+    },
+    "other_detail": {
+      "portal_language": "",
+      "payment_term": "net0",
+      "twitter": "",
+      "facebook": ""
+    },
+    "portal_status": true,
+    "copy_billing_address": false,
+    "role": "",
+    "createdAt": "2020-02-02T12:47:54.147Z",
+    "updatedAt": "2020-02-02T12:47:54.147Z",
+    "id": "5e36c4fafc7eda588cf0b236",
+    "user_id": "5e35bf9bb6dd416e4d7215b6",
+    "first_name": "Martin",
+    "last_name": "Callback",
+    "user_name": "callback.martin@die-davids.de",
+    "email_id": "callback.martin@die-davids.de",
+    "credit": null,
+    "pcustomer_id": "",
+    "api": ""
+  },
+  "create_time": "2020-02-02T12:47:54.557Z"
+}

@@ -1,0 +1,2 @@
+alter table CCSM_PLAN_ROLE_LINK add constraint FK_PLAROL_ON_PLAN foreign key (PLAN_ID) references CCSM_PLAN(ID);
+alter table CCSM_PLAN_ROLE_LINK add constraint FK_PLAROL_ON_ROLE foreign key (ROLE_ID) references SEC_ROLE(ID);

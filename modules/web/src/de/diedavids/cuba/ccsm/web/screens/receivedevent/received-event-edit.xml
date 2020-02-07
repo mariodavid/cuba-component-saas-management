@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.receivedevent">
+    <data>
+        <instance id="receivedEventDc"
+                  class="de.diedavids.cuba.ccsm.entity.ReceivedEvent"
+                  view="receivedEvent-view">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="contentField" spacing="true">
+        <form id="form"
+              dataContainer="receivedEventDc"
+              editable="false">
+            <column width="250px">
+                <textField id="typeField" property="type"/>
+                <textField id="eventIdField" property="eventId"/>
+                <textField id="sourceField" property="source"/>
+                <textField id="apiVersionField" property="apiVersion"/>
+            </column>
+        </form>
+        <sourceCodeEditor
+                id="contentField"
+                width="100%"
+                dataContainer="receivedEventDc"
+                property="content"
+                mode="JavaScript"
+                editable="false"
+        />
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

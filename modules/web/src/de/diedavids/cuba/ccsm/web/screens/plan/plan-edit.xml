@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.plan">
+    <data>
+        <instance id="planDc"
+                  class="de.diedavids.cuba.ccsm.entity.Plan"
+                  view="plan-view">
+            <loader/>
+            <collection id="rolesDc" property="roles"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="planDc">
+            <column width="250px">
+                <textField id="externalIdField" property="externalId"/>
+                <textField id="nameField" property="name"/>
+                <pickerField id="productField" property="product">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+            </column>
+        </form>
+        <groupBox id="rolesBox" caption="msg://de.diedavids.cuba.ccsm.entity/Plan.roles">
+            <table id="rolesTable" dataContainer="rolesDc" width="100%" height="200px">
+                <actions>
+                    <action id="add" type="add"/>
+                    <action id="exclude" type="exclude"/>
+                </actions>
+                <columns>
+                    <column id="name"/>
+                    <column id="locName"/>
+                    <column id="description"/>
+                    <column id="type"/>
+                    <column id="defaultRole"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="rolesTable.add"/>
+                    <button action="rolesTable.exclude"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

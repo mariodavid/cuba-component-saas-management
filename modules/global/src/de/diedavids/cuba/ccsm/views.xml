@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+
+    <view entity="ccsm_Customer" name="customer-view" extends="_local">
+        <property name="subscriptions" view="subscription-view"/>
+        <property name="tenant" view="_minimal"/>
+    </view>
+    <view entity="ccsm_Subscription" name="subscription-view" extends="_local">
+        <property name="customer" view="_minimal"/>
+        <property name="plan" view="_minimal"/>
+    </view>
+    <view entity="ccsm_ReceivedEvent" name="receivedEvent-view" extends="_local" systemProperties="true"/>
+    <view entity="ccsm_Plan" name="plan-view" extends="_local">
+        <property name="product" view="_minimal"/>
+        <property name="roles" view="_minimal"/>
+    </view>
+    <view entity="ccsm_Product" name="product-view" extends="_local">
+        <property name="plans" view="plan-view"/>
+    </view>
+    <view entity="ccsm_Waitinglist" name="waitinglist-view" extends="_local">
+        <property name="animal" view="_minimal"/>
+        <property name="contact" view="_minimal"/>
+    </view>
+</views>

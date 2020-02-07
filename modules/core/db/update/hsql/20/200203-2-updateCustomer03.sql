@@ -1,0 +1,2 @@
+alter table CCSM_CUSTOMER add constraint FK_CCSM_CUSTOMER_ON_TENANT foreign key (TENANT_ID) references CUBASDBMT_TENANT(ID);
+create index IDX_CCSM_CUSTOMER_ON_TENANT on CCSM_CUSTOMER (TENANT_ID);

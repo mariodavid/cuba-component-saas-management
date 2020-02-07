@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://browseCaption"
+        focusComponent="plansTable"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.plan">
+    <data readOnly="true">
+        <collection id="plansDc"
+                    class="de.diedavids.cuba.ccsm.entity.Plan"
+                    view="plan-view">
+            <loader id="plansDl">
+                <query>
+                    <![CDATA[select e from ccsm_Plan e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="plansTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="plansTable"
+                dataLoader="plansDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="plansTable"
+                    width="100%"
+                    dataContainer="plansDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="externalId"/>
+                <column id="name"/>
+                <column id="product"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="plansTable.create"/>
+                <button id="editBtn" action="plansTable.edit"/>
+                <button id="removeBtn" action="plansTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

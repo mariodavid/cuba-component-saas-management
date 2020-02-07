@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens">
+    <dialogMode forceDialog="true"
+                width="600"
+                height="700" />
+    <layout>
+        <browserFrame height="100%"
+                      width="100%" id="clientPortalFrame" >
+        </browserFrame>
+
+    </layout>
+</window>

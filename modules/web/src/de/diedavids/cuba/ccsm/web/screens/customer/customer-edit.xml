@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.customer">
+    <data>
+        <instance id="customerDc"
+                  class="de.diedavids.cuba.ccsm.entity.Customer"
+                  view="customer-view">
+            <loader/>
+            <collection id="subscriptionsDc" property="subscriptions"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="customerDc">
+            <column width="250px">
+                <textField id="nameField" property="name"/>
+                <textField id="firstNameField" property="firstName"/>
+                <textField id="externalIdField" property="externalId"/>
+                <pickerField id="tenantField" property="tenant">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+            </column>
+        </form>
+        <groupBox id="subscriptionsBox" caption="msg://de.diedavids.cuba.ccsm.entity/Customer.subscriptions">
+            <table id="subscriptionsTable" dataContainer="subscriptionsDc" width="100%" height="200px">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="customer"/>
+                    <column id="plan"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="subscriptionsTable.create"/>
+                    <button action="subscriptionsTable.edit"/>
+                    <button action="subscriptionsTable.remove"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
