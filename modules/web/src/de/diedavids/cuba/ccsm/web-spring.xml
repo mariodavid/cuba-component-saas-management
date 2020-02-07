@@ -11,8 +11,8 @@
         <property name="serverSelector" ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
-                <entry key="ccsm_CustomerCreationService"
-                       value="de.diedavids.cuba.ccsm.service.CustomerCreationService"/>
+                <entry key="ccsm_SubscriptionService"
+                       value="de.diedavids.cuba.ccsm.service.SubscriptionService"/>
                 <entry key="ccsm_ReceviedEventService" value="de.diedavids.cuba.ccsm.service.ReceviedEventService"/>
             </map>
         </property>

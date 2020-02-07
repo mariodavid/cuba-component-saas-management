@@ -8,7 +8,7 @@ import com.haulmont.cuba.gui.screen.*;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import de.diedavids.cuba.ccsm.entity.Plan;
-import de.diedavids.cuba.ccsm.service.CustomerCreationService;
+import de.diedavids.cuba.ccsm.service.SubscriptionService;
 
 import javax.inject.Inject;
 
@@ -21,9 +21,7 @@ public class CustomerBrowse extends StandardLookup<Customer> {
     @Inject
     protected Dialogs dialogs;
     @Inject
-    protected CustomerCreationService customerCreationService;
-    @Inject
-    protected DataContext dataContext;
+    protected SubscriptionService subscriptionService;
 
     @Subscribe("customersTable.quickCreate")
     protected void onCustomersTableQuickCreate(Action.ActionPerformedEvent event) {
@@ -58,18 +56,19 @@ public class CustomerBrowse extends StandardLookup<Customer> {
                 )
                 .withCloseListener(closeEvent -> {
 
-                    CreateCustomerWithSubscriptionRequest createCustomerWithSubscriptionRequest = new CreateCustomerWithSubscriptionRequest();
+                    CreateCustomerWithSubscriptionRequest request = new CreateCustomerWithSubscriptionRequest();
 
-                    createCustomerWithSubscriptionRequest.setName(closeEvent.getValue("lastName"));
-                    createCustomerWithSubscriptionRequest.setFirstName(closeEvent.getValue("firstName"));
-                    createCustomerWithSubscriptionRequest.setCustomerId(closeEvent.getValue("externalId"));
-                    createCustomerWithSubscriptionRequest.setOrganizationName(closeEvent.getValue("organizationName"));
-                    createCustomerWithSubscriptionRequest.setOrganizationCode(closeEvent.getValue("organizationCode"));
-                    createCustomerWithSubscriptionRequest.setEmail(closeEvent.getValue("email"));
-                    createCustomerWithSubscriptionRequest.setPassword(closeEvent.getValue("password"));
-                    createCustomerWithSubscriptionRequest.setPlan(closeEvent.getValue("plan"));
-                    customerCreationService.createCustomer(
-                            createCustomerWithSubscriptionRequest
+                    request.setName(closeEvent.getValue("lastName"));
+                    request.setFirstName(closeEvent.getValue("firstName"));
+                    request.setCustomerId(closeEvent.getValue("externalId"));
+                    request.setOrganizationName(closeEvent.getValue("organizationName"));
+                    request.setOrganizationCode(closeEvent.getValue("organizationCode"));
+                    request.setEmail(closeEvent.getValue("email"));
+                    request.setPassword(closeEvent.getValue("password"));
+                    request.setPlan(closeEvent.getValue("plan"));
+
+                    subscriptionService.createCustomerWithSubscription(
+                            request
                     );
 
 

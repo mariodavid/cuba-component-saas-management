@@ -12,7 +12,7 @@ import com.haulmont.cuba.security.app.TrustedClientService;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.web.auth.WebAuthConfig;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
-import de.diedavids.cuba.ccsm.service.CustomerCreationService;
+import de.diedavids.cuba.ccsm.service.SubscriptionService;
 import de.diedavids.cuba.ccsm.service.ReceviedEventService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class WebhookController {
     @Inject
     protected TrustedClientService trustedClientService;
     @Inject
-    protected CustomerCreationService customerCreationService;
+    protected SubscriptionService subscriptionService;
     @Inject
     protected ReceviedEventService receviedEventService;
     @Inject
@@ -70,7 +70,7 @@ public class WebhookController {
 
             if (eventType.equals(EventType.CUSTOMER_CREATED)) {
                 CreateCustomerWithSubscriptionRequest createCustomerWithSubscriptionRequest = convertToCustomerCreatedEvent(event);
-                customerCreationService.createCustomer(createCustomerWithSubscriptionRequest);
+                subscriptionService.createCustomerWithSubscription(createCustomerWithSubscriptionRequest);
             }
 
             return ResponseEntity.ok(event.jsonObj.toString());

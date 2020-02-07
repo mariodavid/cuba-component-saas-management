@@ -18,10 +18,9 @@ import de.diedavids.cuba.ccsm.entity.SubscriptionStatus;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Collections;
 
-@Service(CustomerCreationService.NAME)
-public class CustomerCreationServiceBean implements CustomerCreationService {
+@Service(SubscriptionService.NAME)
+public class SubscriptionServiceBean implements SubscriptionService {
 
     @Inject
     protected DataManager dataManager;
@@ -29,19 +28,18 @@ public class CustomerCreationServiceBean implements CustomerCreationService {
     @Inject
     protected TenantConfig tenantConfig;
 
-
     @Inject
     protected PasswordEncryption passwordEncryption;
 
     @Override
-    public Customer createCustomer(CreateCustomerWithSubscriptionRequest request) {
+    public Customer createCustomerWithSubscription(
+            CreateCustomerWithSubscriptionRequest request
+    ) {
         Customer customer = dataManager.create(Customer.class);
         Tenant tenant = dataManager.create(Tenant.class);
 
         Plan selectedPlan = dataManager.reload(request.getPlan(), "plan-view");
 
-
-        CommitContext commitContext = new CommitContext();
 
 
         customer.setExternalId(request.getCustomerId());
@@ -73,21 +71,21 @@ public class CustomerCreationServiceBean implements CustomerCreationService {
         );
 
         customerUser.setGroup(tenantRootGroup);
+        tenant.setAdmin(customerUser);
 
         UserRole userRole = dataManager.create(UserRole.class);
         userRole.setUser(customerUser);
         userRole.setRole(tenantConfig.getDefaultTenantRole());
 
+
+
+
+        CommitContext commitContext = new CommitContext();
+
         selectedPlan.getRoles()
                 .stream()
                 .map(role -> createUserRole(customerUser, role))
                 .forEach(commitContext::addInstanceToCommit);
-
-
-        customerUser.setUserRoles(Collections.singletonList(userRole));
-
-        tenant.setAdmin(customerUser);
-
 
         commitContext.addInstanceToCommit(customer);
         commitContext.addInstanceToCommit(subscription);
