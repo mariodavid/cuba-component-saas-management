@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.customersubscriptionrequest">
+    <data>
+        <instance id="customerSubscriptionRequestDc"
+                  class="de.diedavids.cuba.ccsm.entity.CustomerSubscriptionRequest"
+                  view="_local">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="customerSubscriptionRequestDc">
+            <column width="250px">
+                <textField id="lastNameField" property="lastName"/>
+                <textField id="firstNameField" property="firstName"/>
+                <textField id="passwordField" property="password"/>
+                <textField id="organizationNameField" property="organizationName"/>
+                <textField id="organizationCodeField" property="organizationCode"/>
+                <textField id="emailField" property="email"/>
+                <pickerField id="planField" property="plan">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="customerIdField" property="customerId"/>
+                <textField id="userNameField" property="userName"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <metadata xmlns="http://schemas.haulmont.com/cuba/metadata.xsd">
 
-    <metadata-model root-package="de.diedavids.cuba.ccsm" namespace="ccsm"/>
+    <metadata-model root-package="de.diedavids.cuba.ccsm" namespace="ccsm">
+        <class>de.diedavids.cuba.ccsm.entity.CustomerSubscriptionRequest</class>
+    </metadata-model>
 
 </metadata>

@@ -21,4 +21,8 @@
         <property name="animal" view="_minimal"/>
         <property name="contact" view="_minimal"/>
     </view>
+    <view entity="ccsm_CustomerSubscriptionRequest" name="customerSubscriptionRequest-view" extends="_local">
+        <property name="lastName" />
+        <property name="firstName" />
+    </view>
 </views>

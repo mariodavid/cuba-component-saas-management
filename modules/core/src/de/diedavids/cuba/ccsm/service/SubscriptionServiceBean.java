@@ -6,6 +6,7 @@ import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.PasswordEncryption;
+import com.haulmont.cuba.security.app.Authentication;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 import com.haulmont.cuba.security.entity.User;
@@ -18,6 +19,11 @@ import de.diedavids.cuba.ccsm.entity.SubscriptionStatus;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service(SubscriptionService.NAME)
 public class SubscriptionServiceBean implements SubscriptionService {
@@ -30,73 +36,80 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
     @Inject
     protected PasswordEncryption passwordEncryption;
+    @Inject
+    protected Authentication authentication;
 
     @Override
     public Customer createCustomerWithSubscription(
             CreateCustomerWithSubscriptionRequest request
     ) {
-        Customer customer = dataManager.create(Customer.class);
-        Tenant tenant = dataManager.create(Tenant.class);
 
-        Plan selectedPlan = dataManager.reload(request.getPlan(), "plan-view");
+        return authentication.withSystemUser(() -> {
+            Customer customer = dataManager.create(Customer.class);
+            Tenant tenant = dataManager.create(Tenant.class);
 
-
-
-        customer.setExternalId(request.getCustomerId());
-        customer.setName(request.getName());
-        customer.setFirstName(request.getFirstName());
-        customer.setTenant(tenant);
-
-        Subscription subscription = dataManager.create(Subscription.class);
-        subscription.setCustomer(customer);
-        subscription.setPlan(selectedPlan);
-        subscription.setStatus(SubscriptionStatus.LIVE);
-
-        tenant.setTenantId(request.getOrganizationCode());
-        tenant.setName(request.getOrganizationName());
-
-        Group tenantRootGroup = createTenantGroupIfPossible(request.getOrganizationCode());
-        tenant.setGroup(tenantRootGroup);
-
-
-        User customerUser = dataManager.create(User.class);
-
-        customerUser.setFirstName(request.getFirstName());
-        customerUser.setLastName(request.getName());
-        customerUser.setLogin(request.getEmail());
-        customerUser.setEmail(request.getEmail());
-
-        customerUser.setPassword(
-                passwordEncryption.getPasswordHash(customerUser.getId(), request.getPassword())
-        );
-
-        customerUser.setGroup(tenantRootGroup);
-        tenant.setAdmin(customerUser);
-
-        UserRole userRole = dataManager.create(UserRole.class);
-        userRole.setUser(customerUser);
-        userRole.setRole(tenantConfig.getDefaultTenantRole());
+            Plan selectedPlan = dataManager.reload(request.getPlan(), "plan-view");
 
 
 
+            customer.setExternalId(request.getCustomerId());
+            customer.setName(request.getName());
+            customer.setFirstName(request.getFirstName());
+            customer.setTenant(tenant);
 
-        CommitContext commitContext = new CommitContext();
+            Subscription subscription = dataManager.create(Subscription.class);
+            subscription.setCustomer(customer);
+            subscription.setPlan(selectedPlan);
+            subscription.setStatus(SubscriptionStatus.LIVE);
 
-        selectedPlan.getRoles()
-                .stream()
-                .map(role -> createUserRole(customerUser, role))
-                .forEach(commitContext::addInstanceToCommit);
+            tenant.setTenantId(request.getOrganizationCode());
+            tenant.setName(request.getOrganizationName());
 
-        commitContext.addInstanceToCommit(customer);
-        commitContext.addInstanceToCommit(subscription);
-        commitContext.addInstanceToCommit(tenant);
-        commitContext.addInstanceToCommit(tenantRootGroup);
-        commitContext.addInstanceToCommit(userRole);
-        commitContext.addInstanceToCommit(customerUser);
+            Group tenantRootGroup = createTenantGroupIfPossible(request.getOrganizationCode());
+            tenant.setGroup(tenantRootGroup);
 
-        dataManager.commit(commitContext);
 
-        return customer;
+            User customerUser = dataManager.create(User.class);
+
+            customerUser.setFirstName(request.getFirstName());
+            customerUser.setLastName(request.getName());
+            customerUser.setLogin(request.getEmail());
+            customerUser.setEmail(request.getEmail());
+
+            customerUser.setPassword(
+                    passwordEncryption.getPasswordHash(customerUser.getId(), request.getPassword())
+            );
+
+            customerUser.setGroup(tenantRootGroup);
+            tenant.setAdmin(customerUser);
+
+
+            List<UserRole> planUserRoles = selectedPlan.getRoles()
+                    .stream()
+                    .map(role -> createUserRole(customerUser, role))
+                    .collect(Collectors.toList());
+
+
+
+            CommitContext commitContext = new CommitContext();
+
+
+
+            commitContext.addInstanceToCommit(customer);
+            commitContext.addInstanceToCommit(subscription);
+            commitContext.addInstanceToCommit(tenant);
+            commitContext.addInstanceToCommit(tenantRootGroup);
+
+            planUserRoles
+                    .forEach(commitContext::addInstanceToCommit);
+
+            commitContext.addInstanceToCommit(customerUser);
+
+            dataManager.commit(commitContext);
+
+            return customer;
+        });
+
     }
 
     private UserRole createUserRole(User customerUser, Role role) {

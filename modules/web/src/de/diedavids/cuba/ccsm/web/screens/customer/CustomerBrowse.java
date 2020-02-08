@@ -70,8 +70,6 @@ public class CustomerBrowse extends StandardLookup<Customer> {
                     subscriptionService.createCustomerWithSubscription(
                             request
                     );
-
-
                 })
         .show();
     }

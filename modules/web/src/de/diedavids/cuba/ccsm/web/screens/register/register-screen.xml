@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://caption"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.register">
+
+    <data>
+        <instance id="customerSubscriptionRequestDc"
+                  class="de.diedavids.cuba.ccsm.entity.CustomerSubscriptionRequest"
+                  view="customerSubscriptionRequest-view">
+            <loader/>
+        </instance>
+        <collection id="plansDc" class="de.diedavids.cuba.ccsm.entity.Plan" view="_minimal">
+            <loader id="plansDl">
+                <query>
+                    <![CDATA[select e from ccsm_Plan e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode width="600" height="400" forceDialog="true"/>
+    <layout expand="content" spacing="true">
+        <vbox id="content" margin="true" spacing="true" expand="form">
+            <form id="form" dataContainer="customerSubscriptionRequestDc" width="100%">
+                <column width="100%">
+                    <textField id="lastNameField" property="lastName"/>
+                    <textField id="firstNameField" property="firstName"/>
+                    <textField id="passwordField" property="password"/>
+                    <textField id="organizationNameField" property="organizationName"/>
+                    <textField id="organizationCodeField" property="organizationCode"/>
+                    <textField id="emailField" property="email"/>
+                    <lookupField id="planField" property="plan" optionsContainer="plansDc" />
+                    <textField id="customerIdField" property="customerId"/>
+                    <textField id="userNameField" property="userName"/>
+                </column>
+            </form>
+            <button id="okBtn"
+                    align="TOP_RIGHT"
+                    primary="true"
+                    width="100%"
+                    caption="msg://register"/>
+        </vbox>
+    </layout>
+</window>
