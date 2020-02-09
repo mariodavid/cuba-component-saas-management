@@ -48,7 +48,11 @@ public class SubscriptionServiceBean implements SubscriptionService {
             Customer customer = dataManager.create(Customer.class);
             Tenant tenant = dataManager.create(Tenant.class);
 
-            Plan selectedPlan = dataManager.reload(request.getPlan(), "plan-view");
+            Plan selectedPlan = dataManager.load(Plan.class)
+            .query("select e from ccsm_Plan e where e.externalId = :planCode")
+            .parameter("planCode", request.getPlan())
+            .view("plan-view")
+                    .one();
 
 
 
@@ -92,7 +96,6 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
 
             CommitContext commitContext = new CommitContext();
-
 
 
             commitContext.addInstanceToCommit(customer);

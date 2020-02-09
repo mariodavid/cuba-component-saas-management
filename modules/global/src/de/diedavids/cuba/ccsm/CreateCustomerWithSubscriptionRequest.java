@@ -12,7 +12,7 @@ public class CreateCustomerWithSubscriptionRequest implements Serializable {
     String firstName;
     String userName;
     String email;
-    Plan plan;
+    String plan;
 
     String organizationName;
     String organizationCode;
@@ -58,14 +58,6 @@ public class CreateCustomerWithSubscriptionRequest implements Serializable {
         this.email = email;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
-
     public String getOrganizationName() {
         return organizationName;
     }
@@ -88,5 +80,13 @@ public class CreateCustomerWithSubscriptionRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
     }
 }

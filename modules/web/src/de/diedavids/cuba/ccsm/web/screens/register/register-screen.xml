@@ -9,7 +9,7 @@
                   view="customerSubscriptionRequest-view">
             <loader/>
         </instance>
-        <collection id="plansDc" class="de.diedavids.cuba.ccsm.entity.Plan" view="_minimal">
+        <collection id="plansDc" class="de.diedavids.cuba.ccsm.entity.Plan" view="_local">
             <loader id="plansDl">
                 <query>
                     <![CDATA[select e from ccsm_Plan e]]>

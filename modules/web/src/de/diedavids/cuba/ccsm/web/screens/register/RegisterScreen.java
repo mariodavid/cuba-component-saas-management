@@ -59,7 +59,7 @@ public class RegisterScreen extends Screen {
             request.setOrganizationCode(item().getOrganizationCode());
             request.setEmail(item().getEmail());
             request.setPassword(item().getPassword());
-            request.setPlan(item().getPlan());
+            request.setPlan(item().getPlan().getExternalId());
 
             subscriptionService.createCustomerWithSubscription(
                     request
