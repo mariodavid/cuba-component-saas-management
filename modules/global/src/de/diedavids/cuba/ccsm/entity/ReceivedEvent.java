@@ -32,6 +32,28 @@ public class ReceivedEvent extends StandardEntity {
     @Column(name = "API_VERSION")
     protected String apiVersion;
 
+    @Column(name = "COMMENT_", length = 4000)
+    protected String comment;
+
+    @Column(name = "ACKNOWLEDGED")
+    protected Boolean acknowledged;
+
+    public Boolean getAcknowledged() {
+        return acknowledged;
+    }
+
+    public void setAcknowledged(Boolean acknowledged) {
+        this.acknowledged = acknowledged;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public String getApiVersion() {
         return apiVersion;
     }

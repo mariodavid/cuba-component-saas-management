@@ -3,17 +3,18 @@ package de.diedavids.cuba.ccsm.controllers;
 
 import com.chargebee.models.Customer;
 import com.chargebee.models.Event;
+import com.chargebee.models.Subscription;
 import com.chargebee.models.enums.EventType;
 import com.haulmont.cuba.core.global.Configuration;
-import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.core.sys.SecurityContext;
 import com.haulmont.cuba.security.app.TrustedClientService;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.web.auth.WebAuthConfig;
+import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
-import de.diedavids.cuba.ccsm.service.SubscriptionService;
 import de.diedavids.cuba.ccsm.service.ReceviedEventService;
+import de.diedavids.cuba.ccsm.service.SubscriptionService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.function.Supplier;
 
 
@@ -40,16 +40,13 @@ public class WebhookController {
     protected ReceviedEventService receviedEventService;
     @Inject
     protected Configuration configuration;
-    @Inject
-    protected DataManager dataManager;
-
 
 
     @PostMapping(path = "/chargebee")
     public ResponseEntity chargebeeWebhook(
             @RequestBody String body,
             @RequestParam(name = "webhook_key") String webhookKey
-    ) throws IOException {
+    ) {
 
         if(!checkIfRequestIsFromChargeBee(webhookKey)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -69,12 +66,28 @@ public class WebhookController {
             );
 
             if (eventType.equals(EventType.CUSTOMER_CREATED)) {
-                CreateCustomerWithSubscriptionRequest createCustomerWithSubscriptionRequest = convertToCustomerCreatedEvent(event);
-                subscriptionService.createCustomerWithSubscription(createCustomerWithSubscriptionRequest);
+                CreateCustomerWithSubscriptionRequest request = convertToCustomerCreatedEvent(event);
+                subscriptionService.createCustomerWithSubscription(request);
+            }
+            if (eventType.equals(EventType.SUBSCRIPTION_CHANGED)) {
+                ChangeSubscriptionRequest request = convertToSubscriptionChangedEvent(event);
+                subscriptionService.changeSubscription(request);
             }
 
             return ResponseEntity.ok(event.jsonObj.toString());
         });
+    }
+
+    private ChangeSubscriptionRequest convertToSubscriptionChangedEvent(Event event) {
+        ChangeSubscriptionRequest request = new ChangeSubscriptionRequest();
+
+        Subscription subscription = event.content().subscription();
+        Customer customer = event.content().customer();
+
+        request.setCustomerId(customer.id());
+        request.setPlan(subscription.planId());
+
+        return request;
     }
 
 
@@ -105,14 +118,14 @@ public class WebhookController {
     }
 
     private CreateCustomerWithSubscriptionRequest convertToCustomerCreatedEvent(Event event) {
-        CreateCustomerWithSubscriptionRequest createCustomerWithSubscriptionRequest = new CreateCustomerWithSubscriptionRequest();
+        CreateCustomerWithSubscriptionRequest request = new CreateCustomerWithSubscriptionRequest();
 
         Customer customer = event.content().customer();
-        createCustomerWithSubscriptionRequest.setCustomerId(customer.id());
-        createCustomerWithSubscriptionRequest.setEmail(customer.email());
-        createCustomerWithSubscriptionRequest.setFirstName(customer.firstName());
-        createCustomerWithSubscriptionRequest.setName(customer.lastName());
+        request.setCustomerId(customer.id());
+        request.setEmail(customer.email());
+        request.setFirstName(customer.firstName());
+        request.setName(customer.lastName());
 
-        return createCustomerWithSubscriptionRequest;
+        return request;
     }
 }

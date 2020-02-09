@@ -85,7 +85,8 @@ create table CCSM_RECEIVED_EVENT (
     EVENT_ID varchar(255) not null,
     SOURCE varchar(255),
     API_VERSION varchar(255),
-    WEBHOOK_STATUS varchar(255),
+    COMMENT_ varchar(4000),
+    ACKNOWLEDGED boolean,
     --
     primary key (ID)
 )^

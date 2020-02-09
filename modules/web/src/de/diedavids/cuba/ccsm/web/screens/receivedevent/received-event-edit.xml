@@ -21,6 +21,8 @@
                 <textField id="eventIdField" property="eventId"/>
                 <textField id="sourceField" property="source"/>
                 <textField id="apiVersionField" property="apiVersion"/>
+                <textField id="commentField" property="comment"/>
+                <checkBox id="acknowledgedField" property="acknowledged"/>
             </column>
         </form>
         <sourceCodeEditor

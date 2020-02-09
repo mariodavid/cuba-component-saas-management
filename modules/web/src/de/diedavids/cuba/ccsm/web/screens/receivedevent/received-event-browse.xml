@@ -38,6 +38,8 @@
                 <column id="eventId"/>
                 <column id="source"/>
                 <column id="apiVersion"/>
+                <column id="comment"/>
+                <column id="acknowledged"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

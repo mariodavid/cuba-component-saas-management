@@ -7,7 +7,7 @@
     </view>
     <view entity="ccsm_Subscription" name="subscription-view" extends="_local">
         <property name="customer" view="_minimal"/>
-        <property name="plan" view="_minimal"/>
+        <property name="plan" view="_base"/>
     </view>
     <view entity="ccsm_ReceivedEvent" name="receivedEvent-view" extends="_local" systemProperties="true"/>
     <view entity="ccsm_Plan" name="plan-view" extends="_local">

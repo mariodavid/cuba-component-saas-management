@@ -1,7 +1,5 @@
 package de.diedavids.cuba.ccsm;
 
-import de.diedavids.cuba.ccsm.entity.Plan;
-
 import java.io.Serializable;
 
 public class CreateCustomerWithSubscriptionRequest implements Serializable {

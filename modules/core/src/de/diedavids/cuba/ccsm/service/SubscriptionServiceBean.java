@@ -11,6 +11,7 @@ import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
+import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import de.diedavids.cuba.ccsm.entity.Plan;
@@ -19,11 +20,8 @@ import de.diedavids.cuba.ccsm.entity.SubscriptionStatus;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service(SubscriptionService.NAME)
 public class SubscriptionServiceBean implements SubscriptionService {
@@ -48,12 +46,7 @@ public class SubscriptionServiceBean implements SubscriptionService {
             Customer customer = dataManager.create(Customer.class);
             Tenant tenant = dataManager.create(Tenant.class);
 
-            Plan selectedPlan = dataManager.load(Plan.class)
-            .query("select e from ccsm_Plan e where e.externalId = :planCode")
-            .parameter("planCode", request.getPlan())
-            .view("plan-view")
-                    .one();
-
+            Plan selectedPlan = loadPlanByExternalId(request.getPlan());
 
 
             customer.setExternalId(request.getCustomerId());
@@ -112,6 +105,31 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
             return customer;
         });
+
+    }
+
+    private Plan loadPlanByExternalId(String planId) {
+        return dataManager.load(Plan.class)
+                .query("select e from ccsm_Plan e where e.externalId = :planCode")
+                .parameter("planCode", planId)
+                .view("plan-view")
+                        .one();
+    }
+
+    @Override
+    public void changeSubscription(ChangeSubscriptionRequest request) {
+
+        Customer customer = dataManager.load(Customer.class)
+                .query("select e from ccsm_Customer e where e.externalId = :customerId")
+                .parameter("customerId", request.getCustomerId())
+                .view("customer-view")
+                .one();
+
+        Subscription subscription = customer.getSubscriptions().get(0);
+
+        subscription.setPlan(loadPlanByExternalId(request.getPlan()));
+
+        dataManager.commit(subscription);
 
     }
 
