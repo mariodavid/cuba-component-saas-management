@@ -1,5 +1,6 @@
 package de.diedavids.cuba.ccsm.web.screens.customer;
 
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.Dialogs;
 import com.haulmont.cuba.gui.app.core.inputdialog.InputParameter;
 import com.haulmont.cuba.gui.components.Action;
@@ -22,6 +23,8 @@ public class CustomerBrowse extends StandardLookup<Customer> {
     protected Dialogs dialogs;
     @Inject
     protected SubscriptionService subscriptionService;
+    @Inject
+    protected DataManager dataManager;
 
     @Subscribe("customersTable.quickCreate")
     protected void onCustomersTableQuickCreate(Action.ActionPerformedEvent event) {
@@ -65,7 +68,10 @@ public class CustomerBrowse extends StandardLookup<Customer> {
                     request.setOrganizationCode(closeEvent.getValue("organizationCode"));
                     request.setEmail(closeEvent.getValue("email"));
                     request.setPassword(closeEvent.getValue("password"));
-                    request.setPlan(closeEvent.getValue("plan"));
+
+                    Plan plan = dataManager.reload((Plan) closeEvent.getValue("plan"), "plan-view");
+
+                    request.setPlan(plan.getExternalId());
 
                     subscriptionService.createCustomerWithSubscription(
                             request

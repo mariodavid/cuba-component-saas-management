@@ -30,6 +30,7 @@
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
+                <action id="changePlan" caption="msg://changePlan" trackSelection="true"/>
             </actions>
             <columns>
                 <column id="status"/>
@@ -42,6 +43,7 @@
                 <button id="createBtn" action="subscriptionsTable.create"/>
                 <button id="editBtn" action="subscriptionsTable.edit"/>
                 <button id="removeBtn" action="subscriptionsTable.remove"/>
+                <button id="changePlanBtn" action="subscriptionsTable.changePlan"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

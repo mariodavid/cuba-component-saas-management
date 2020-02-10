@@ -13,6 +13,7 @@ import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.entity.UserRole;
 import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
+import de.diedavids.cuba.ccsm.core.PlanRolesExchange;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import de.diedavids.cuba.ccsm.entity.Plan;
 import de.diedavids.cuba.ccsm.entity.Subscription;
@@ -36,6 +37,9 @@ public class SubscriptionServiceBean implements SubscriptionService {
     protected PasswordEncryption passwordEncryption;
     @Inject
     protected Authentication authentication;
+
+    @Inject
+    protected PlanRolesExchange planRolesExchange;
 
     @Override
     public Customer createCustomerWithSubscription(
@@ -87,7 +91,6 @@ public class SubscriptionServiceBean implements SubscriptionService {
                     .collect(Collectors.toList());
 
 
-
             CommitContext commitContext = new CommitContext();
 
 
@@ -113,11 +116,13 @@ public class SubscriptionServiceBean implements SubscriptionService {
                 .query("select e from ccsm_Plan e where e.externalId = :planCode")
                 .parameter("planCode", planId)
                 .view("plan-view")
-                        .one();
+                .one();
     }
 
     @Override
     public void changeSubscription(ChangeSubscriptionRequest request) {
+
+        CommitContext commitContext = new CommitContext();
 
         Customer customer = dataManager.load(Customer.class)
                 .query("select e from ccsm_Customer e where e.externalId = :customerId")
@@ -127,10 +132,38 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
         Subscription subscription = customer.getSubscriptions().get(0);
 
-        subscription.setPlan(loadPlanByExternalId(request.getPlan()));
+        Plan oldSelectedPlan = loadPlanByExternalId(subscription.getPlan().getExternalId());
+        Plan newSelectedPlan = loadPlanByExternalId(request.getPlan());
 
-        dataManager.commit(subscription);
+        subscription.setPlan(newSelectedPlan);
 
+        commitContext.addInstanceToCommit(subscription);
+
+        User user = dataManager.reload(customer.getTenant().getAdmin(), "user.edit");
+
+
+        addNewRolesToUser(commitContext, oldSelectedPlan, newSelectedPlan, user);
+        removeOldRolesForUser(commitContext, oldSelectedPlan, newSelectedPlan, user);
+
+
+        dataManager.commit(commitContext);
+
+    }
+
+    private void removeOldRolesForUser(CommitContext commitContext, Plan oldSelectedPlan, Plan newSelectedPlan, User user) {
+        List<Role> rolesToRemove = planRolesExchange.calculateRolesToRemove(oldSelectedPlan, newSelectedPlan);
+        List<UserRole> userRolesToRemove = planRolesExchange.determineUserRolesToRemove(user.getUserRoles(), rolesToRemove);
+
+        userRolesToRemove
+            .forEach(commitContext::addInstanceToRemove);
+    }
+
+    private void addNewRolesToUser(CommitContext commitContext, Plan oldSelectedPlan, Plan newSelectedPlan, User user) {
+        List<Role> rolesToAdd = planRolesExchange.calculateRolesToAdd(oldSelectedPlan, newSelectedPlan);
+
+        rolesToAdd.stream()
+                .map(role -> createUserRole(user, role))
+                .forEach(commitContext::addInstanceToCommit);
     }
 
     private UserRole createUserRole(User customerUser, Role role) {

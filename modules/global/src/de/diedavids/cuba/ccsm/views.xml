@@ -3,10 +3,10 @@
 
     <view entity="ccsm_Customer" name="customer-view" extends="_local">
         <property name="subscriptions" view="subscription-view"/>
-        <property name="tenant" view="_minimal"/>
+        <property name="tenant" view="tenant-edit"/>
     </view>
     <view entity="ccsm_Subscription" name="subscription-view" extends="_local">
-        <property name="customer" view="_minimal"/>
+        <property name="customer" view="_base"/>
         <property name="plan" view="_base"/>
     </view>
     <view entity="ccsm_ReceivedEvent" name="receivedEvent-view" extends="_local" systemProperties="true"/>
