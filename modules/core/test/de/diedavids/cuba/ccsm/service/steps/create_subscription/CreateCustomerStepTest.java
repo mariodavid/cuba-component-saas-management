@@ -2,7 +2,6 @@ package de.diedavids.cuba.ccsm.service.steps.create_subscription;
 
 import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.TimeSource;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import org.junit.jupiter.api.Test;
@@ -11,15 +10,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.ZonedDateTime;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class CreateCustomerStepTest {
 
-  @Mock
-  private TimeSource timeSource;
 
   @Mock
   private DataManager dataManager;
