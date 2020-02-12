@@ -1,0 +1,34 @@
+{
+  "id": "ev_6ob1WRpMzK0HDEA",
+  "occurred_at": 1580668829,
+  "source": "admin_console",
+  "user": "hans-wurst@die-davids.de",
+  "object": "event",
+  "api_version": "v2",
+  "content": {
+    "plan": {
+      "id": "personal-breeding",
+      "name": "Personal Breeding",
+      "description": "Personal Breeding allows personal breeders to frictionless manage their breedings.",
+      "price": 900,
+      "period": 1,
+      "period_unit": "month",
+      "pricing_model": "flat_fee",
+      "free_quantity": 0,
+      "status": "active",
+      "enabled_in_hosted_pages": true,
+      "enabled_in_portal": true,
+      "addon_applicability": "all",
+      "is_shippable": false,
+      "updated_at": 1580668829,
+      "giftable": false,
+      "resource_version": 1580668829491,
+      "object": "plan",
+      "charge_model": "flat_fee",
+      "taxable": true,
+      "currency_code": "USD"
+    }
+  },
+  "event_type": "plan_created",
+  "webhook_status": "not_configured"
+}

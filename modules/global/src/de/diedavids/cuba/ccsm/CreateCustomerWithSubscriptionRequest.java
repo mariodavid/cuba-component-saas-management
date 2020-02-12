@@ -6,6 +6,8 @@ public class CreateCustomerWithSubscriptionRequest implements Serializable {
 
     String customerId;
 
+    String subscriptionId;
+
     String name;
     String firstName;
     String userName;
@@ -87,4 +89,13 @@ public class CreateCustomerWithSubscriptionRequest implements Serializable {
     public void setPlan(String plan) {
         this.plan = plan;
     }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
+
 }

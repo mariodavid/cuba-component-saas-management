@@ -15,7 +15,6 @@ import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
 import de.diedavids.cuba.ccsm.service.ReceviedEventService;
 import de.diedavids.cuba.ccsm.service.SubscriptionService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -60,19 +59,23 @@ public class WebhookController {
             receviedEventService.storeEvent(
                     event.id(),
                     event.source().name(),
-                    StringUtils.left(body, 4000),
+                    body,
                     eventType.toString(),
                     event.apiVersion().name()
             );
 
-            if (eventType.equals(EventType.CUSTOMER_CREATED)) {
-                CreateCustomerWithSubscriptionRequest request = convertToCustomerCreatedEvent(event);
+
+
+            if (eventType.equals(EventType.SUBSCRIPTION_CREATED)) {
+                CreateCustomerWithSubscriptionRequest request = convertToCreateCustomerWithSubscriptionRequest(event);
                 subscriptionService.createCustomerWithSubscription(request);
             }
+
             if (eventType.equals(EventType.SUBSCRIPTION_CHANGED)) {
                 ChangeSubscriptionRequest request = convertToSubscriptionChangedEvent(event);
                 subscriptionService.changeSubscription(request);
             }
+
 
             return ResponseEntity.ok(event.jsonObj.toString());
         });
@@ -117,7 +120,7 @@ public class WebhookController {
         }
     }
 
-    private CreateCustomerWithSubscriptionRequest convertToCustomerCreatedEvent(Event event) {
+    private CreateCustomerWithSubscriptionRequest convertToCreateCustomerWithSubscriptionRequest(Event event) {
         CreateCustomerWithSubscriptionRequest request = new CreateCustomerWithSubscriptionRequest();
 
         Customer customer = event.content().customer();
@@ -125,6 +128,13 @@ public class WebhookController {
         request.setEmail(customer.email());
         request.setFirstName(customer.firstName());
         request.setName(customer.lastName());
+        request.setOrganizationName(customer.firstName() + " " + customer.lastName());
+        request.setOrganizationCode(customer.id());
+        request.setPassword(customer.email());
+
+
+        Subscription subscription = event.content().subscription();
+        request.setPlan(subscription.planId());
 
         return request;
     }

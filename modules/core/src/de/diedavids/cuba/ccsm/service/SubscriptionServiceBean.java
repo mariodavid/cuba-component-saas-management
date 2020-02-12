@@ -52,8 +52,8 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
             CreateSubscriptionStep createSubscriptionStep = new CreateSubscriptionStep(
                     dataManager,
-                    createCustomerStep,
-                    request.getPlan()
+                    request,
+                    createCustomerStep
             );
             createSubscriptionStep.accept(commitContext);
 

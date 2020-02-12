@@ -14,13 +14,16 @@
                 width="800"/>
     <layout expand="contentField" spacing="true">
         <form id="form"
-              dataContainer="receivedEventDc"
-              editable="false">
+              dataContainer="receivedEventDc">
             <column width="250px">
-                <textField id="typeField" property="type"/>
-                <textField id="eventIdField" property="eventId"/>
-                <textField id="sourceField" property="source"/>
-                <textField id="apiVersionField" property="apiVersion"/>
+                <textField
+              editable="false" id="typeField" property="type"/>
+                <textField
+              editable="false" id="eventIdField" property="eventId"/>
+                <textField
+              editable="false" id="sourceField" property="source"/>
+                <textField
+              editable="false" id="apiVersionField" property="apiVersion"/>
                 <textField id="commentField" property="comment"/>
                 <checkBox id="acknowledgedField" property="acknowledged"/>
             </column>

@@ -1,0 +1,87 @@
+{
+  "id": "ev_Azqgm0RqGVDZW5YY",
+  "occurred_at": 1581489129,
+  "source": "hosted_page",
+  "object": "event",
+  "api_version": "v2",
+  "content": {
+    "customer": {
+      "id": "169yF0RqGUyuf6hR",
+      "first_name": "Personal",
+      "last_name": "Breeder",
+      "email": "personal-breeder@die-davids.de",
+      "auto_collection": "on",
+      "net_term_days": 0,
+      "allow_direct_debit": false,
+      "created_at": 1581489129,
+      "created_from_ip": "91.106.186.172",
+      "taxability": "taxable",
+      "updated_at": 1581489129,
+      "pii_cleared": "active",
+      "resource_version": 1581489129552,
+      "deleted": false,
+      "object": "customer",
+      "billing_address": {
+        "first_name": "Personal",
+        "last_name": "Breeder",
+        "line1": "Breeder Cup Way",
+        "city": "Horizon City",
+        "state_code": "TX",
+        "state": "Texas",
+        "country": "US",
+        "zip": "79928",
+        "validation_status": "not_validated",
+        "object": "billing_address"
+      },
+      "card_status": "valid",
+      "primary_payment_source_id": "pm_Azqgm0RqGVDWO5YQ",
+      "payment_method": {
+        "object": "payment_method",
+        "type": "card",
+        "reference_id": "tok_Azqgm0RqGVDWA5YP",
+        "gateway": "chargebee",
+        "gateway_account_id": "gw_16CPSnRpMu5p33m",
+        "status": "valid"
+      },
+      "promotional_credits": 0,
+      "refundable_credits": 0,
+      "excess_payments": 0,
+      "unbilled_charges": 0,
+      "preferred_currency_code": "USD"
+    },
+    "payment_source": {
+      "id": "pm_Azqgm0RqGVDWO5YQ",
+      "updated_at": 1581489129,
+      "resource_version": 1581489129553,
+      "deleted": false,
+      "object": "payment_source",
+      "customer_id": "169yF0RqGUyuf6hR",
+      "type": "card",
+      "reference_id": "tok_Azqgm0RqGVDWA5YP",
+      "status": "valid",
+      "gateway": "chargebee",
+      "gateway_account_id": "gw_16CPSnRpMu5p33m",
+      "ip_address": "91.106.186.172",
+      "created_at": 1581489129,
+      "card": {
+        "iin": "411111",
+        "last4": "1111",
+        "funding_type": "credit",
+        "expiry_month": 12,
+        "expiry_year": 2029,
+        "masked_number": "************1111",
+        "object": "card",
+        "brand": "visa"
+      }
+    }
+  },
+  "event_type": "payment_source_added",
+  "webhook_status": "scheduled",
+  "webhooks": [
+    {
+      "id": "whv2_6ob1WRpNUp14EsK",
+      "webhook_status": "scheduled",
+      "object": "webhook"
+    }
+  ]
+}

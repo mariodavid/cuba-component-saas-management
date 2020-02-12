@@ -1,6 +1,5 @@
 package de.diedavids.cuba.ccsm.service;
 
-import com.chargebee.models.Event;
 import com.haulmont.cuba.core.global.DataManager;
 import de.diedavids.cuba.ccsm.entity.ReceivedEvent;
 import org.springframework.stereotype.Service;

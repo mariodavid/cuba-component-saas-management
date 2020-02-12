@@ -12,6 +12,9 @@ import javax.validation.constraints.NotNull;
 public class Subscription extends StandardEntity {
     private static final long serialVersionUID = -2217985033355594389L;
 
+    @Column(name = "EXTERNAL_ID")
+    protected String externalId;
+
     @NotNull
     @Column(name = "STATUS", nullable = false)
     protected String status;
@@ -26,6 +29,14 @@ public class Subscription extends StandardEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "PLAN_ID")
     protected Plan plan;
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
 
     public Plan getPlan() {
         return plan;
