@@ -7,6 +7,7 @@ import de.diedavids.cuba.ccsm.entity.Plan;
 import de.diedavids.cuba.ccsm.entity.Subscription;
 import de.diedavids.cuba.ccsm.entity.SubscriptionStatus;
 import de.diedavids.cuba.ccsm.service.steps.CommitStep;
+import de.diedavids.cuba.ccsm.service.steps.change_plan.PlanLoaderStep;
 
 import java.util.function.Supplier;
 
@@ -31,7 +32,7 @@ public class CreateSubscriptionStep implements CommitStep, Supplier<Plan> {
     @Override
     public void accept(CommitContext commitContext) {
 
-        plan = loadPlanByExternalId(request.getPlan());
+        plan = new PlanLoaderStep(dataManager).apply(request.getPlan());
 
         Subscription subscription = dataManager.create(Subscription.class);
         subscription.setCustomer(createCustomerStep.getCustomer());
@@ -39,14 +40,6 @@ public class CreateSubscriptionStep implements CommitStep, Supplier<Plan> {
         subscription.setStatus(SubscriptionStatus.LIVE);
         subscription.setExternalId(request.getSubscriptionId());
         commitContext.addInstanceToCommit(subscription);
-    }
-
-    private Plan loadPlanByExternalId(String planId) {
-        return dataManager.load(Plan.class)
-                .query("select e from ccsm_Plan e where e.externalId = :planCode")
-                .parameter("planCode", planId)
-                .view("plan-view")
-                .one();
     }
 
     @Override

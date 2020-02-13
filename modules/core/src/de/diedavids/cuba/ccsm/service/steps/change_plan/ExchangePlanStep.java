@@ -17,30 +17,29 @@ public class ExchangePlanStep implements CommitStep {
 
     private final DataManager dataManager;
     private final PlanRolesExchange planRolesExchange;
-    private final SubscriptionAndUserLoaderStep subscriptionAndUserLoader;
+    private final UserAndSubscription userAndSubscription;
     private final ChangeSubscriptionRequest request;
 
     public ExchangePlanStep(
             DataManager dataManager,
             PlanRolesExchange planRolesExchange,
-            SubscriptionAndUserLoaderStep subscriptionAndUserLoader,
+            UserAndSubscription userAndSubscription,
             ChangeSubscriptionRequest request
     ) {
-
         this.dataManager = dataManager;
         this.planRolesExchange = planRolesExchange;
-        this.subscriptionAndUserLoader = subscriptionAndUserLoader;
+        this.userAndSubscription = userAndSubscription;
         this.request = request;
     }
 
     @Override
     public void accept(CommitContext commitContext) {
-        Subscription subscription = subscriptionAndUserLoader.getSubscription();
-        User user = subscriptionAndUserLoader.getUser();
+        Subscription subscription = userAndSubscription.getSubscription();
+        User user = userAndSubscription.getUser();
 
-        Plan newSelectedPlan = loadPlan(commitContext, request.getPlan());
+        Plan newSelectedPlan = loadPlan(request.getPlan());
 
-        Plan oldSelectedPlan = loadPlan(commitContext, subscription.getPlan().getExternalId());
+        Plan oldSelectedPlan = loadPlan(subscription.getPlan().getExternalId());
         addNewRolesToUser(commitContext, oldSelectedPlan, newSelectedPlan, user);
         removeOldRolesForUser(commitContext, oldSelectedPlan, newSelectedPlan, user);
 
@@ -50,10 +49,9 @@ public class ExchangePlanStep implements CommitStep {
 
     }
 
-    private Plan loadPlan(CommitContext commitContext, String plan) {
-        PlanLoaderStep newPlanLoader = new PlanLoaderStep(dataManager, plan);
-        newPlanLoader.accept(commitContext);
-        return newPlanLoader.getPlan();
+    private Plan loadPlan(String plan) {
+        PlanLoaderStep newPlanLoader = new PlanLoaderStep(dataManager);
+        return newPlanLoader.apply(plan);
     }
 
     private void removeOldRolesForUser(CommitContext commitContext, Plan oldSelectedPlan, Plan newSelectedPlan, User user) {
@@ -78,5 +76,4 @@ public class ExchangePlanStep implements CommitStep {
         newUserRole.setRole(role);
         return newUserRole;
     }
-
 }

@@ -11,6 +11,7 @@ import de.diedavids.cuba.ccsm.core.PlanRolesExchange;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import de.diedavids.cuba.ccsm.service.steps.change_plan.ExchangePlanStep;
 import de.diedavids.cuba.ccsm.service.steps.change_plan.SubscriptionAndUserLoaderStep;
+import de.diedavids.cuba.ccsm.service.steps.change_plan.UserAndSubscription;
 import de.diedavids.cuba.ccsm.service.steps.create_subscription.CreateCustomerStep;
 import de.diedavids.cuba.ccsm.service.steps.create_subscription.CreateSubscriptionStep;
 import de.diedavids.cuba.ccsm.service.steps.create_subscription.CreateTenantStep;
@@ -81,19 +82,16 @@ public class SubscriptionServiceBean implements SubscriptionService {
 
         CommitContext commitContext = new CommitContext();
 
-        SubscriptionAndUserLoaderStep subscriptionAndUserLoader = new SubscriptionAndUserLoaderStep(
-                dataManager,
-                request
-        );
-        subscriptionAndUserLoader.accept(commitContext);
+        UserAndSubscription userAndSubscription = new SubscriptionAndUserLoaderStep(
+                dataManager
+        ).apply(request.getCustomerId());
 
-        ExchangePlanStep exchangePlanStep = new ExchangePlanStep(
+        new ExchangePlanStep(
                 dataManager,
                 planRolesExchange,
-                subscriptionAndUserLoader,
+                userAndSubscription,
                 request
-        );
-        exchangePlanStep.accept(commitContext);
+        ).accept(commitContext);
 
         dataManager.commit(commitContext);
 

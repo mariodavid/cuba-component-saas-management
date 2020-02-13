@@ -1,27 +1,20 @@
 package de.diedavids.cuba.ccsm.service.steps.change_plan;
 
-import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
 import de.diedavids.cuba.ccsm.entity.Plan;
-import de.diedavids.cuba.ccsm.service.steps.CommitStep;
+import de.diedavids.cuba.ccsm.service.steps.LoadStep;
 
-public class PlanLoaderStep implements CommitStep {
+public class PlanLoaderStep implements LoadStep<String, Plan> {
     private final DataManager dataManager;
-    private final String planId;
-    private Plan plan;
 
     public PlanLoaderStep(
-            DataManager dataManager,
-            String planId) {
-
+            DataManager dataManager) {
         this.dataManager = dataManager;
-        this.planId = planId;
     }
 
     @Override
-    public void accept(CommitContext commitContext) {
-
-        plan = loadPlanByExternalId(planId);
+    public Plan apply(String planId) {
+        return loadPlanByExternalId(planId);
     }
 
     private Plan loadPlanByExternalId(String planId) {
@@ -30,9 +23,5 @@ public class PlanLoaderStep implements CommitStep {
                 .parameter("planCode", planId)
                 .view("plan-view")
                 .one();
-    }
-
-    public Plan getPlan() {
-        return plan;
     }
 }

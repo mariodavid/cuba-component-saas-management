@@ -1,51 +1,33 @@
 package de.diedavids.cuba.ccsm.service.steps.change_plan;
 
-import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.security.entity.User;
-import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
-import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
 import de.diedavids.cuba.ccsm.entity.Customer;
 import de.diedavids.cuba.ccsm.entity.Subscription;
-import de.diedavids.cuba.ccsm.service.steps.CommitStep;
+import de.diedavids.cuba.ccsm.service.steps.LoadStep;
 
-public class SubscriptionAndUserLoaderStep implements CommitStep {
+public class SubscriptionAndUserLoaderStep implements LoadStep<String, UserAndSubscription> {
     private final DataManager dataManager;
-    private final ChangeSubscriptionRequest request;
-    private Customer customer;
-    private Subscription subscription;
-    private User user;
 
     public SubscriptionAndUserLoaderStep(
-            DataManager dataManager,
-            ChangeSubscriptionRequest request
+            DataManager dataManager
     ) {
-
         this.dataManager = dataManager;
-        this.request = request;
     }
 
     @Override
-    public void accept(CommitContext commitContext) {
-
+    public UserAndSubscription apply(String customerId) {
 
         Customer customer = dataManager.load(Customer.class)
                 .query("select e from ccsm_Customer e where e.externalId = :customerId")
-                .parameter("customerId", request.getCustomerId())
+                .parameter("customerId", customerId)
                 .view("customer-view")
                 .one();
 
-        subscription = customer.getSubscriptions().get(0);
+        Subscription subscription = customer.getSubscriptions().get(0);
 
-        user = dataManager.reload(customer.getTenant().getAdmin(), "user.edit");
+        User user = dataManager.reload(customer.getTenant().getAdmin(), "user.edit");
 
-    }
-
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    public User getUser() {
-        return user;
+        return new UserAndSubscription(user, subscription);
     }
 }
