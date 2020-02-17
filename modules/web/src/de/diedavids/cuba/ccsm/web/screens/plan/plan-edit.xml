@@ -9,6 +9,7 @@
                   view="plan-view">
             <loader/>
             <collection id="rolesDc" property="roles"/>
+            <collection id="limitsDc" property="limits"/>
         </instance>
     </data>
     <dialogMode height="600"
@@ -26,6 +27,24 @@
                 </pickerField>
             </column>
         </form>
+        <groupBox id="limitsBox" caption="msg://de.diedavids.cuba.ccsm.entity/Plan.limits">
+            <table id="limitsTable" dataContainer="limitsDc" width="100%" height="200px">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="limit"/>
+                    <column id="value"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="limitsTable.create"/>
+                    <button action="limitsTable.edit"/>
+                    <button action="limitsTable.remove"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
         <groupBox id="rolesBox" caption="msg://de.diedavids.cuba.ccsm.entity/Plan.roles">
             <table id="rolesTable" dataContainer="rolesDc" width="100%" height="200px">
                 <actions>
@@ -34,10 +53,6 @@
                 </actions>
                 <columns>
                     <column id="name"/>
-                    <column id="locName"/>
-                    <column id="description"/>
-                    <column id="type"/>
-                    <column id="defaultRole"/>
                 </columns>
                 <buttonsPanel>
                     <button action="rolesTable.add"/>

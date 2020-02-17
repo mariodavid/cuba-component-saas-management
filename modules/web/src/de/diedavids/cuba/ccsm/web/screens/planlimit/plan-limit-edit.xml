@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://editorCaption"
+        focusComponent="form"
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.planlimit">
+    <data>
+        <instance id="planLimitDc"
+                  class="de.diedavids.cuba.ccsm.entity.PlanLimit"
+                  view="planLimit-view">
+            <loader/>
+        </instance>
+        <collection id="limitsDc" class="de.diedavids.cuba.ccsm.entity.Limit" view="_minimal">
+            <loader id="limitsLc">
+                <query>
+                    <![CDATA[select e from ccsm_Limit e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="planLimitDc">
+            <column width="250px">
+                <pickerField id="planField" property="plan">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <lookupPickerField id="limitField" optionsContainer="limitsDc" property="limit"/>
+                <textField id="valueField" property="value"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button action="windowCommitAndClose"/>
+            <button action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

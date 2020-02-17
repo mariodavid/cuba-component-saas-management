@@ -2,11 +2,17 @@ package de.diedavids.cuba.ccsm.entity.example;
 
 import com.haulmont.addon.sdbmt.entity.StandardTenantEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
-import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.global.validation.groups.UiCrossFieldChecks;
+import de.diedavids.cuba.ccsm.validation.HasCounterLimit;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
+@HasCounterLimit(
+        groups = {Default.class, UiCrossFieldChecks.class},
+        limit = "WAITINGLIST_LIMIT"
+)
 @NamePattern("%s: %s - %s|position,animal,contact")
 @Table(name = "CCSM_WAITINGLIST")
 @Entity(name = "ccsm_Waitinglist")

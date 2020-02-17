@@ -4,6 +4,7 @@
         <item screen="ccsm_Animal.browse"/>
         <item screen="ccsm_Contact.browse"/>
         <item screen="ccsm_Waitinglist.browse"/>
+
     </menu>
 
     <item screen="ccsm_ClientPortalScreen"/>
@@ -13,5 +14,6 @@
         <item screen="ccsm_Subscription.browse"/>
         <item screen="ccsm_Plan.browse"/>
         <item screen="ccsm_Product.browse"/>
+        <item screen="ccsm_Limit.browse"/>
     </menu>
 </menu-config>

@@ -1,7 +1,10 @@
 package de.diedavids.cuba.ccsm.entity;
 
+import com.haulmont.chile.core.annotations.Composition;
 import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.cuba.security.entity.Role;
 
 import javax.persistence.*;
@@ -26,11 +29,24 @@ public class Plan extends StandardEntity {
     @JoinColumn(name = "PRODUCT_ID")
     protected Product product;
 
+    @Composition
+    @OnDelete(DeletePolicy.CASCADE)
+    @OneToMany(mappedBy = "plan")
+    protected List<PlanLimit> limits;
+
     @JoinTable(name = "CCSM_PLAN_ROLE_LINK",
             joinColumns = @JoinColumn(name = "PLAN_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     @ManyToMany
     protected List<Role> roles;
+
+    public List<PlanLimit> getLimits() {
+        return limits;
+    }
+
+    public void setLimits(List<PlanLimit> limits) {
+        this.limits = limits;
+    }
 
     public List<Role> getRoles() {
         return roles;

@@ -2,21 +2,21 @@
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
         caption="msg://editorCaption"
         focusComponent="form"
-        messagesPack="de.diedavids.cuba.ccsm.web.screens.animal">
+        messagesPack="de.diedavids.cuba.ccsm.web.screens.limit">
     <data>
-        <instance id="animalDc"
-                  class="de.diedavids.cuba.ccsm.entity.example.Animal"
-                  view="animal-view">
+        <instance id="limitDc"
+                  class="de.diedavids.cuba.ccsm.entity.Limit"
+                  view="_local">
             <loader/>
         </instance>
     </data>
     <dialogMode height="600"
                 width="800"/>
     <layout expand="editActions" spacing="true">
-        <form id="form" dataContainer="animalDc">
+        <form id="form" dataContainer="limitDc">
             <column width="250px">
                 <textField id="nameField" property="name"/>
-                <upload fileStoragePutMode="IMMEDIATE" showFileName="true" id="imageField" property="image"/>
+                <textField id="codeField" property="code"/>
             </column>
         </form>
         <hbox id="editActions" spacing="true">

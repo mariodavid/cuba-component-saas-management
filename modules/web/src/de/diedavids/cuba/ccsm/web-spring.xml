@@ -14,6 +14,7 @@
                 <entry key="ccsm_SubscriptionService"
                        value="de.diedavids.cuba.ccsm.service.SubscriptionService"/>
                 <entry key="ccsm_ReceviedEventService" value="de.diedavids.cuba.ccsm.service.ReceviedEventService"/>
+                <entry key="ccsm_LimitService" value="de.diedavids.cuba.ccsm.service.LimitService"/>
             </map>
         </property>
     </bean>
