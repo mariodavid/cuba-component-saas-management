@@ -11,7 +11,7 @@ public interface Limitations {
      * @param value the value to check
      * @return true if limit has been reached, otherwise false
      */
-    boolean reachedLimit(String limitCode, int value);
+    boolean exceededLimit(String limitCode, int value);
 
     /**
      * returns the limit value for a given limit code

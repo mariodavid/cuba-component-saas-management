@@ -10,10 +10,9 @@
     <item screen="ccsm_ClientPortalScreen"/>
     <menu id="saas-ccsm" insertBefore="administration">
         <item screen="ccsm_Customer.browse"/>
-        <item screen="ccsm_ReceivedEvent.browse"/>
         <item screen="ccsm_Subscription.browse"/>
-        <item screen="ccsm_Plan.browse"/>
         <item screen="ccsm_Product.browse"/>
         <item screen="ccsm_Limit.browse"/>
+        <item screen="ccsm_ReceivedEvent.browse"/>
     </menu>
 </menu-config>

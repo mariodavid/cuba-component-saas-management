@@ -15,51 +15,56 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="editActions" spacing="true">
-        <form id="form" dataContainer="planDc">
-            <column width="250px">
-                <textField id="externalIdField" property="externalId"/>
-                <textField id="nameField" property="name"/>
-                <pickerField id="productField" property="product">
+        <tabSheet>
+            <tab spacing="true" margin="true" id="generalTab" caption="msg://general">
+                <form id="form" dataContainer="planDc">
+                    <column width="250px">
+                        <textField id="externalIdField" property="externalId"/>
+                        <textField id="nameField" property="name"/>
+                        <pickerField id="productField" property="product">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </pickerField>
+                    </column>
+                </form>
+            </tab>
+            <tab spacing="true" margin="true" id="limitsTab" caption="msg://limits">
+                <table id="limitsTable" dataContainer="limitsDc" width="100%" height="200px">
                     <actions>
-                        <action id="lookup" type="picker_lookup"/>
-                        <action id="clear" type="picker_clear"/>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
                     </actions>
-                </pickerField>
-            </column>
-        </form>
-        <groupBox id="limitsBox" caption="msg://de.diedavids.cuba.ccsm.entity/Plan.limits">
-            <table id="limitsTable" dataContainer="limitsDc" width="100%" height="200px">
-                <actions>
-                    <action id="create" type="create"/>
-                    <action id="edit" type="edit"/>
-                    <action id="remove" type="remove"/>
-                </actions>
-                <columns>
-                    <column id="limit"/>
-                    <column id="value"/>
-                </columns>
-                <buttonsPanel>
-                    <button action="limitsTable.create"/>
-                    <button action="limitsTable.edit"/>
-                    <button action="limitsTable.remove"/>
-                </buttonsPanel>
-            </table>
-        </groupBox>
-        <groupBox id="rolesBox" caption="msg://de.diedavids.cuba.ccsm.entity/Plan.roles">
-            <table id="rolesTable" dataContainer="rolesDc" width="100%" height="200px">
-                <actions>
-                    <action id="add" type="add"/>
-                    <action id="exclude" type="exclude"/>
-                </actions>
-                <columns>
-                    <column id="name"/>
-                </columns>
-                <buttonsPanel>
-                    <button action="rolesTable.add"/>
-                    <button action="rolesTable.exclude"/>
-                </buttonsPanel>
-            </table>
-        </groupBox>
+                    <columns>
+                        <column id="limit"/>
+                        <column id="value"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button action="limitsTable.create"/>
+                        <button action="limitsTable.edit"/>
+                        <button action="limitsTable.remove"/>
+                    </buttonsPanel>
+                </table>
+            </tab>
+            <tab spacing="true" margin="true" id="rolesTab" caption="msg://roles">
+                <table id="rolesTable" dataContainer="rolesDc" width="100%" height="200px">
+                    <actions>
+                        <action id="add" type="add"/>
+                        <action id="exclude" type="exclude"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                    </columns>
+                    <buttonsPanel>
+                        <button action="rolesTable.add"/>
+                        <button action="rolesTable.exclude"/>
+                    </buttonsPanel>
+                </table>
+            </tab>
+        </tabSheet>
+
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>

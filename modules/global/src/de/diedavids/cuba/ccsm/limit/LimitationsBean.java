@@ -20,7 +20,7 @@ public class LimitationsBean implements Limitations {
     protected Logger log;
 
     @Override
-    public boolean reachedLimit(String limitCode, int value) {
+    public boolean exceededLimit(String limitCode, int value) {
 
         Integer limitValue = limitValue(limitCode);
 
