@@ -13,8 +13,11 @@ import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.cuba.web.auth.WebAuthConfig;
 import de.diedavids.cuba.ccsm.ChangeSubscriptionRequest;
 import de.diedavids.cuba.ccsm.CreateCustomerWithSubscriptionRequest;
+import de.diedavids.cuba.ccsm.controllers.handler.WebhookEventHandler;
 import de.diedavids.cuba.ccsm.service.ReceviedEventService;
 import de.diedavids.cuba.ccsm.service.SubscriptionService;
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,6 +43,10 @@ public class WebhookController {
     @Inject
     protected Configuration configuration;
 
+    @Inject
+    protected List<WebhookEventHandler> eventHandlers;
+
+
 
     @PostMapping(path = "/chargebee")
     public ResponseEntity chargebeeWebhook(
@@ -64,34 +71,23 @@ public class WebhookController {
                     event.apiVersion().name()
             );
 
+            final Optional<WebhookEventHandler> eventHandler = eventHandlers.stream()
+                .filter(handler -> handler.supports(eventType))
+                .findFirst();
 
+            final Boolean handlerResult = eventHandler
+                .map(handler -> handler.handle(event))
+                .orElse(false);
 
-            if (eventType.equals(EventType.SUBSCRIPTION_CREATED)) {
-                CreateCustomerWithSubscriptionRequest request = convertToCreateCustomerWithSubscriptionRequest(event);
-                subscriptionService.createCustomerWithSubscription(request);
+            if (handlerResult) {
+                return ResponseEntity.ok(event.jsonObj.toString());
             }
-
-            if (eventType.equals(EventType.SUBSCRIPTION_CHANGED)) {
-                ChangeSubscriptionRequest request = convertToSubscriptionChangedEvent(event);
-                subscriptionService.changeSubscription(request);
+            else {
+                return ResponseEntity.unprocessableEntity().build();
             }
-
-
-            return ResponseEntity.ok(event.jsonObj.toString());
         });
     }
 
-    private ChangeSubscriptionRequest convertToSubscriptionChangedEvent(Event event) {
-        ChangeSubscriptionRequest request = new ChangeSubscriptionRequest();
-
-        Subscription subscription = event.content().subscription();
-        Customer customer = event.content().customer();
-
-        request.setCustomerId(customer.id());
-        request.setPlan(subscription.planId());
-
-        return request;
-    }
 
 
     private boolean checkIfRequestIsFromChargeBee(String webhookKey) {
@@ -120,22 +116,4 @@ public class WebhookController {
         }
     }
 
-    private CreateCustomerWithSubscriptionRequest convertToCreateCustomerWithSubscriptionRequest(Event event) {
-        CreateCustomerWithSubscriptionRequest request = new CreateCustomerWithSubscriptionRequest();
-
-        Customer customer = event.content().customer();
-        request.setCustomerId(customer.id());
-        request.setEmail(customer.email());
-        request.setFirstName(customer.firstName());
-        request.setName(customer.lastName());
-        request.setOrganizationName(customer.firstName() + " " + customer.lastName());
-        request.setOrganizationCode(customer.id());
-        request.setPassword(customer.email());
-
-
-        Subscription subscription = event.content().subscription();
-        request.setPlan(subscription.planId());
-
-        return request;
-    }
 }

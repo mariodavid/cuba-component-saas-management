@@ -12,12 +12,12 @@ import com.haulmont.cuba.core.global.Secret;
 public interface ChargebeeConfig extends Config {
 
 
-    @DefaultString("hans-wurst-test")
+    @DefaultString("hanswurstattr-test")
     @Property("ccsm.chargebee.siteName")
     String getSiteName();
 
 
-    @DefaultString("test_d0aZ3cn1xeBXR9IDKOiDTzq9aE8nmnmM")
+    @DefaultString("test_DU5zu4uNzRcd9amX2xEVAZdwoqTTnGtZ4")
     @Secret
     @Property("ccsm.chargebee.apiKey")
     String getApiKey();
