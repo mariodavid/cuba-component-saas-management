@@ -13,23 +13,14 @@
           type="javax.sql.DataSource"
           url="jdbc:hsqldb:hsql://localhost:9010/ccsm-T58mZWTIq"
           username="sa"/>-->
-    <!--<Resource driverClassName="org.postgresql.Driver"
-          maxIdle="2"
-          maxTotal="20"
-          maxWaitMillis="5000"
-          name="jdbc/CubaDS"
-          password="postgres"
-          type="javax.sql.DataSource"
-          url="jdbc:postgresql://localhost/ccsm2"
-          username="postgres"/>-->
-    <Resource driverClassName="org.postgresql.Driver"
-              maxIdle="2"
-              maxTotal="20"
-              maxWaitMillis="5000"
-              name="jdbc/CubaDS"
-              password="postgres"
-              type="javax.sql.DataSource"
-              url="jdbc:postgresql://localhost/ccsm"
-              username="postgres"/>
+  <Resource driverClassName="org.postgresql.Driver"
+    maxIdle="2"
+    maxTotal="20"
+    maxWaitMillis="5000"
+    name="jdbc/CubaDS"
+    password="postgres"
+    type="javax.sql.DataSource"
+    url="jdbc:postgresql://localhost/ccsm-test-3"
+    username="postgres"/>
 
 </Context>

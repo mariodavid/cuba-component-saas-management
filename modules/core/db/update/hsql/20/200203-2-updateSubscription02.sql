@@ -1,2 +1,0 @@
-alter table CCSM_SUBSCRIPTION add constraint FK_CCSM_SUBSCRIPTION_ON_PLAN foreign key (PLAN_ID) references CCSM_PLAN(ID);
-create index IDX_CCSM_SUBSCRIPTION_ON_PLAN on CCSM_SUBSCRIPTION (PLAN_ID);

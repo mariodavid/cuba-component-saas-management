@@ -44,6 +44,7 @@ create table CCSM_SUBSCRIPTION (
     DELETE_TS timestamp,
     DELETED_BY varchar(50),
     --
+    EXTERNAL_ID varchar(255),
     STATUS varchar(50) not null,
     CUSTOMER_ID uuid not null,
     PLAN_ID uuid not null,
@@ -51,6 +52,23 @@ create table CCSM_SUBSCRIPTION (
     primary key (ID)
 )^
 -- end CCSM_SUBSCRIPTION
+-- begin CCSM_LIMIT
+create table CCSM_LIMIT (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    NAME varchar(255) not null,
+    CODE varchar(255) not null,
+    --
+    primary key (ID)
+)^
+-- end CCSM_LIMIT
 -- begin CCSM_PLAN
 create table CCSM_PLAN (
     ID uuid,
@@ -69,6 +87,24 @@ create table CCSM_PLAN (
     primary key (ID)
 )^
 -- end CCSM_PLAN
+-- begin CCSM_PLAN_LIMIT
+create table CCSM_PLAN_LIMIT (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    PLAN_ID uuid not null,
+    LIMIT_ID uuid not null,
+    VALUE_ integer not null,
+    --
+    primary key (ID)
+)^
+-- end CCSM_PLAN_LIMIT
 -- begin CCSM_RECEIVED_EVENT
 create table CCSM_RECEIVED_EVENT (
     ID uuid,
@@ -91,22 +127,6 @@ create table CCSM_RECEIVED_EVENT (
     primary key (ID)
 )^
 -- end CCSM_RECEIVED_EVENT
--- begin CCSM_ANIMAL
-create table CCSM_ANIMAL (
-    ID uuid,
-    VERSION integer not null,
-    CREATE_TS timestamp,
-    CREATED_BY varchar(50),
-    UPDATE_TS timestamp,
-    UPDATED_BY varchar(50),
-    DELETE_TS timestamp,
-    DELETED_BY varchar(50),
-    --
-    NAME varchar(255),
-    --
-    primary key (ID)
-)^
--- end CCSM_ANIMAL
 -- begin CCSM_WAITINGLIST
 create table CCSM_WAITINGLIST (
     ID uuid,
@@ -117,6 +137,7 @@ create table CCSM_WAITINGLIST (
     UPDATED_BY varchar(50),
     DELETE_TS timestamp,
     DELETED_BY varchar(50),
+    TENANT_ID varchar(255),
     --
     ANIMAL_ID uuid not null,
     POSITION_ integer,
@@ -135,14 +156,15 @@ create table CCSM_CONTACT (
     UPDATED_BY varchar(50),
     DELETE_TS timestamp,
     DELETED_BY varchar(50),
+    TENANT_ID varchar(255),
     --
     NAME varchar(255),
     --
     primary key (ID)
 )^
 -- end CCSM_CONTACT
--- begin CCSM_LIMIT
-create table CCSM_LIMIT (
+-- begin CCSM_ANIMAL
+create table CCSM_ANIMAL (
     ID uuid,
     VERSION integer not null,
     CREATE_TS timestamp,
@@ -151,28 +173,18 @@ create table CCSM_LIMIT (
     UPDATED_BY varchar(50),
     DELETE_TS timestamp,
     DELETED_BY varchar(50),
+    TENANT_ID varchar(255),
     --
-    NAME varchar(255) not null,
-    CODE varchar(255) not null,
-    --
-    primary key (ID)
-)^
--- end CCSM_LIMIT
--- begin CCSM_PLAN_LIMIT
-create table CCSM_PLAN_LIMIT (
-    ID uuid,
-    VERSION integer not null,
-    CREATE_TS timestamp,
-    CREATED_BY varchar(50),
-    UPDATE_TS timestamp,
-    UPDATED_BY varchar(50),
-    DELETE_TS timestamp,
-    DELETED_BY varchar(50),
-    --
-    PLAN_ID uuid not null,
-    LIMIT_ID uuid not null,
-    VALUE_ integer not null,
+    NAME varchar(255),
+    IMAGE_ID uuid,
     --
     primary key (ID)
 )^
--- end CCSM_PLAN_LIMIT
+-- end CCSM_ANIMAL
+-- begin CCSM_PLAN_ROLE_LINK
+create table CCSM_PLAN_ROLE_LINK (
+    PLAN_ID uuid,
+    ROLE_ID uuid,
+    primary key (PLAN_ID, ROLE_ID)
+)^
+-- end CCSM_PLAN_ROLE_LINK

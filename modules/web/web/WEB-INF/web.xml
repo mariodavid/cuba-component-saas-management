@@ -8,15 +8,15 @@
     <context-param>
         <param-name>appPropertiesConfig</param-name>
         <param-value>
-            classpath:de/diedavids/cuba/ccsm/web-app.properties
-            /WEB-INF/local.app.properties
-            "file:${catalina.base}/conf/app/local.app.properties"
+          classpath:de/diedavids/cuba/ccsm/web-app.properties
+          /WEB-INF/local.app.properties
+          "file:${app.home}/local.app.properties"
         </param-value>
     </context-param>
     <!--Application components-->
     <context-param>
         <param-name>appComponents</param-name>
-        <param-value>com.haulmont.cuba com.haulmont.addon.sdbmt com.haulmont.addon.restapi de.balvi.cuba.sessioninfo</param-value>
+        <param-value>com.haulmont.cuba com.haulmont.addon.sdbmt com.haulmont.addon.restapi</param-value>
     </context-param>
     <listener>
         <listener-class>com.vaadin.server.communication.JSR356WebsocketInitializer</listener-class>
