@@ -7,13 +7,8 @@
         <class>de.diedavids.cuba.ccsm.entity.Product</class>
         <class>de.diedavids.cuba.ccsm.entity.Plan</class>
         <class>de.diedavids.cuba.ccsm.entity.ReceivedEvent</class>
-        <class>de.diedavids.cuba.ccsm.entity.example.Animal</class>
-        <class>de.diedavids.cuba.ccsm.entity.example.Contact</class>
-        <class>de.diedavids.cuba.ccsm.entity.example.Waitinglist</class>
         <class>de.diedavids.cuba.ccsm.entity.Limit</class>
         <class>de.diedavids.cuba.ccsm.entity.PlanLimit</class>
-
-        <class>de.diedavids.cuba.ccsm.entity.SaasUser</class>
 
     </persistence-unit>
 </persistence>

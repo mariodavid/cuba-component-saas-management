@@ -18,10 +18,6 @@
     <view entity="ccsm_Product" name="product-view" extends="_local">
         <property name="plans" view="plan-view"/>
     </view>
-    <view entity="ccsm_Waitinglist" name="waitinglist-view" extends="_local">
-        <property name="animal" view="_minimal"/>
-        <property name="contact" view="_minimal"/>
-    </view>
     <view entity="ccsm_CustomerSubscriptionRequest" name="customerSubscriptionRequest-view" extends="_local">
         <property name="lastName" />
         <property name="firstName" />
@@ -29,8 +25,5 @@
     <view entity="ccsm_PlanLimit" name="planLimit-view" extends="_local">
         <property name="plan" view="_minimal"/>
         <property name="limit" view="_base"/>
-    </view>
-    <view entity="ccsm_Animal" name="animal-view" extends="_local">
-        <property name="image" view="_minimal"/>
     </view>
 </views>

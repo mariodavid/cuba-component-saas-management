@@ -1,0 +1,1 @@
+drop table if exists CCSM_CONTACT__U15433 cascade ;

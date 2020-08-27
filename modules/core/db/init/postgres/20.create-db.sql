@@ -18,16 +18,7 @@ alter table CCSM_PLAN_LIMIT add constraint FK_CCSM_PLAN_LIMIT_ON_LIMIT foreign k
 create index IDX_CCSM_PLAN_LIMIT_ON_PLAN on CCSM_PLAN_LIMIT (PLAN_ID)^
 create index IDX_CCSM_PLAN_LIMIT_ON_LIMIT on CCSM_PLAN_LIMIT (LIMIT_ID)^
 -- end CCSM_PLAN_LIMIT
--- begin CCSM_WAITINGLIST
-alter table CCSM_WAITINGLIST add constraint FK_CCSM_WAITINGLIST_ON_ANIMAL foreign key (ANIMAL_ID) references CCSM_ANIMAL(ID)^
-alter table CCSM_WAITINGLIST add constraint FK_CCSM_WAITINGLIST_ON_CONTACT foreign key (CONTACT_ID) references CCSM_CONTACT(ID)^
-create index IDX_CCSM_WAITINGLIST_ON_ANIMAL on CCSM_WAITINGLIST (ANIMAL_ID)^
-create index IDX_CCSM_WAITINGLIST_ON_CONTACT on CCSM_WAITINGLIST (CONTACT_ID)^
--- end CCSM_WAITINGLIST
--- begin CCSM_ANIMAL
-alter table CCSM_ANIMAL add constraint FK_CCSM_ANIMAL_ON_IMAGE foreign key (IMAGE_ID) references SYS_FILE(ID)^
-create index IDX_CCSM_ANIMAL_ON_IMAGE on CCSM_ANIMAL (IMAGE_ID)^
--- end CCSM_ANIMAL
+
 -- begin CCSM_PLAN_ROLE_LINK
 alter table CCSM_PLAN_ROLE_LINK add constraint FK_PLAROL_ON_PLAN foreign key (PLAN_ID) references CCSM_PLAN(ID)^
 alter table CCSM_PLAN_ROLE_LINK add constraint FK_PLAROL_ON_ROLE foreign key (ROLE_ID) references SEC_ROLE(ID)^
