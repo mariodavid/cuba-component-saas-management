@@ -14,9 +14,9 @@ public class CcsmTestContainer extends TestContainer {
     public CcsmTestContainer() {
         super();
         appComponents = Arrays.asList(
-            "com.haulmont.cuba",
-            "com.haulmont.addon.sdbmt",
-            "com.haulmont.addon.restapi");
+                "com.haulmont.cuba",
+                "com.haulmont.addon.sdbmt",
+                "com.haulmont.addon.restapi");
         appPropertiesFiles = Arrays.asList(
                 // List the files defined in your web.xml
                 // in appPropertiesConfig context parameter of the core module
